@@ -48,7 +48,6 @@ const getMatchingCatsArray = () => {
     const selectedEmotion = document.querySelector('input[type="radio"]:checked');
     if(selectedEmotion) {
         const isGif = gifsOnlyOption.checked
-        console.log(isGif)
         const matchingCatsArray = catsData.filter((cat) => {
             if (isGif) return cat.emotionTags.includes(selectedEmotion.value) && cat.isGif === true 
             else return cat.emotionTags.includes(selectedEmotion.value) // I access the value here
@@ -57,5 +56,19 @@ const getMatchingCatsArray = () => {
     }
 }
 
-getImageBtn.addEventListener('click', getMatchingCatsArray);
+const getSingleCatObject = () => {
+    const catsArray = getMatchingCatsArray();
+    if (catsArray.length === 1)
+        return catsArray[0];
+    else {
+        const index = Math.floor(Math.random() * catsArray.length);
+        return catsArray[index];
+    }
+}
+
+const renderCat = () => {
+    getSingleCatObject()
+}
+
+getImageBtn.addEventListener('click', renderCat);
 emotionRadios.addEventListener('change', highlightCheckedOption);
