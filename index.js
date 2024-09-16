@@ -5,6 +5,7 @@ const getImageBtn = document.querySelector('#get-image-btn');
 const gifsOnlyOption = document.querySelector('#gifs-only-option')
 const memeModalInner = document.querySelector('#meme-modal-inner')
 const memeModal = document.querySelector('#meme-modal')
+const closeBtn = document.querySelector('#meme-modal-close-btn')
 
 const highlightCheckedOption = (e) => {
     const radios = document.querySelectorAll('.radio');
@@ -79,6 +80,10 @@ const renderCat = () => {
         `
     memeModal.style.display = 'flex';
 }
+
+closeBtn.addEventListener('click', () => {
+    memeModal.style.display = "none"
+})
 
 getImageBtn.addEventListener('click', renderCat);
 emotionRadios.addEventListener('change', highlightCheckedOption);
