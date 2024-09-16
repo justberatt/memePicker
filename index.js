@@ -7,15 +7,6 @@ const memeModalInner = document.querySelector('#meme-modal-inner')
 const memeModal = document.querySelector('#meme-modal')
 const memeModalCloseBtn = document.getElementById('meme-modal-close-btn')
 
-const highlightCheckedOption = (e) => {
-    const radios = document.querySelectorAll('.radio');
-    for (let radio of radios) {
-        radio.classList.remove('highlight')
-    }
-    document.querySelector(`#${e.target.id}`).parentElement.classList.add('highlight')
-}
-
-
 const getEmotionsArray = (cats) => {
     const emotionsArray = []
     for (let cat of cats){
@@ -47,6 +38,42 @@ const renderEmotionsRadios = (cats) => {
 }
 renderEmotionsRadios(catsData) 
 
+const highlightCheckedOption = (e) => {
+    const radios = document.querySelectorAll('.radio');
+    for (let radio of radios) {
+        radio.classList.remove('highlight')
+    }
+    document.querySelector(`#${e.target.id}`).parentElement.classList.add('highlight')
+}
+
+const renderCat = () => {
+    const catObjet = getSingleCatObject();
+    if (catObjet) {
+        memeModalInner.innerHTML = `
+        <img 
+            class="cat-img" 
+            src="./images/${catObjet.image}"
+            alt="${catObjet.alt}"
+            >
+            `
+        memeModal.style.display = 'flex';
+    }
+}
+
+const getSingleCatObject = () => {
+    const catsArray = getMatchingCatsArray();
+    if (catsArray) {
+        if (catsArray.length === 1)
+            return catsArray[0];
+        else {
+            const index = Math.floor(Math.random() * catsArray.length);
+            return catsArray[index];
+        }
+    } else {
+        console.log("You need to select at least one of the emotions")
+    }
+}
+
 const getMatchingCatsArray = () => {
     const selectedEmotion = document.querySelector('input[type="radio"]:checked');
     if(selectedEmotion) {
@@ -59,32 +86,10 @@ const getMatchingCatsArray = () => {
     }
 }
 
-const getSingleCatObject = () => {
-    const catsArray = getMatchingCatsArray();
-    if (catsArray.length === 1)
-        return catsArray[0];
-    else {
-        const index = Math.floor(Math.random() * catsArray.length);
-        return catsArray[index];
-    }
-}
-
-const renderCat = () => {
-    const catObjet = getSingleCatObject();
-    memeModalInner.innerHTML = `
-    <img 
-        class="cat-img" 
-        src="./images/${catObjet.image}"
-        alt="${catObjet.alt}"
-        >
-        `
-    memeModal.style.display = 'flex';
-}
-
 const closeModal = () => {
     memeModal.style.display = 'none';
 }
 
+emotionRadios.addEventListener('change', highlightCheckedOption);
 getImageBtn.addEventListener('click', renderCat);
 memeModalCloseBtn.addEventListener('click', closeModal)
-emotionRadios.addEventListener('change', highlightCheckedOption);
