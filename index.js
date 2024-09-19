@@ -57,6 +57,9 @@ const renderCat = () => {
             >
             `
         memeModal.style.display = 'flex';
+        setTimeout(() => {
+            window.addEventListener('click', closeModalOnOutsideClick);
+        }, 100);
     }
 }
 
@@ -88,6 +91,14 @@ const getMatchingCatsArray = () => {
 
 const closeModal = () => {
     memeModal.style.display = 'none';
+    window.removeEventListener('click', closeModalOnOutsideClick);
+}
+
+
+const closeModalOnOutsideClick = (e) => {
+    if (e.target !== memeModal && !memeModal.contains(e.target)) {
+        closeModal();
+    }
 }
 
 emotionRadios.addEventListener('change', highlightCheckedOption);
